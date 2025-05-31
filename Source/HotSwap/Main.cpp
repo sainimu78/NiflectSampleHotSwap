@@ -1,6 +1,6 @@
 #include "HotSwap.h"
-#include "HotSwap_private.h"
 #include "Niflect/Serialization/JsonFormat.h"
+#include "HotSwap_private.h"
 
 static void InitForTest(CHotSwap& instance)
 {
