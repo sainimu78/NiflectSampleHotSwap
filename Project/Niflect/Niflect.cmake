@@ -1,0 +1,1 @@
+include(${c_RootThirdPartyDirPath}/Niflect/Shared.cmake)

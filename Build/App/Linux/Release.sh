@@ -1,3 +1,3 @@
 #!/bin/bash
-export ProjectDirPath=../../../../../Project/HotSwap
+export ProjectDirPath=../../../../../Project/App
 ../../../ThirdParty/CMakeProjectFramework/PlatformSpecificScript/Linux/Release.sh

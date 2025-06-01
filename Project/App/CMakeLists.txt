@@ -2,17 +2,19 @@ cmake_minimum_required(VERSION 3.10.0)
 
 include(../InitRootPath.cmake)
 
-set(c_ProjectName HotSwap)
+set(c_ProjectName App)
 
 include(${c_RootCMakeProjectFrameworkDirPath}/ProjectBegin.cmake)
 project(${c_ProjectName})
 include(${c_RootCMakeProjectFrameworkDirPath}/ProjectEnd.cmake)
 
+cpf_include_install(${c_RootProjectDirPath}/Runtime/Shared.cmake)
+
 set(ModuleName ${c_ProjectName})
 
 set(ModuleRootPath ${c_RootSourceDirPath}/${ModuleName})
-set(ModuleSourcePath ${ModuleRootPath})
-set(ModuleIncludePath ${ModuleRootPath})
+set(ModuleSourcePath ${ModuleRootPath}/src)
+set(ModuleIncludePath ${ModuleRootPath}/include)
 
 set(IncludePathsPrivate "")
 set(IncludePathsPublic "")
@@ -34,9 +36,10 @@ target_include_directories(${ModuleName}
 	PUBLIC ${IncludePathsPublic}
 )
 
+ngt_target_link_libraries(${ModuleName} PRIVATE Runtime)
+
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
-include(${c_RootThirdPartyDirPath}/Niflect/Shared.cmake)
-include(${c_RootThirdPartyDirPath}/NiflectGenTool/Exe.cmake)
+include(${c_RootProjectDirPath}/Niflect/Default.cmake)
 
 include(${c_ProjectDirPath}/Install.cmake)
 
