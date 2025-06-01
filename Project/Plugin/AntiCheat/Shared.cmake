@@ -1,6 +1,6 @@
-set(ModuleName Runtime)
+set(ModuleName AntiCheat)
 
-set(ModuleRootPath ${c_RootSourceDirPath}/${ModuleName})
+set(ModuleRootPath ${c_RootSourceDirPath}/Plugin/${ModuleName})
 set(ModuleSourcePath ${ModuleRootPath}/src)
 set(ModuleIncludePath ${ModuleRootPath}/include)
 
@@ -19,21 +19,16 @@ list(APPEND SrcAll ${ModuleHeaders})
 
 add_library(${ModuleName} SHARED ${SrcAll})
 
-target_precompile_headers(${ModuleName} PUBLIC ${ModuleIncludePath}/RuntimeCommon.h)
+target_precompile_headers(${ModuleName} PRIVATE ${ModuleSourcePath}/AntiCheatCommon.h)
 
 target_include_directories(${ModuleName}
 	PRIVATE ${IncludePathsPrivate}
 	PUBLIC ${IncludePathsPublic}
 )
 
-target_compile_definitions(${ModuleName} PRIVATE -DRUNTIME_EXPORTS)
+target_compile_definitions(${ModuleName} PRIVATE -DANTICHEAT_EXPORTS)
 
-list(APPEND v_ListAccessorSettingHeaderFilePath ${ModuleIncludePath}/AccessorSetting.h)
-#list(APPEND v_ListModuleIncludeDirPath ${IncludePathsPrivate})
-#list(APPEND v_ListModuleIncludeDirPath ${IncludePathsPublic})
+ngt_target_link_libraries(${ModuleName} PRIVATE Runtime)
+
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
-#set(v_ModuleAPIMacro ENGINE_API)
-#set(v_ModuleAPIMacroHeaderFilePath ${ModuleIncludePath}/Engine/EngineCommon.h)
 include(${c_RootProjectDirPath}/Niflect/Default.cmake)
-
-#include(${c_ProjectDirPath}/Install.cmake)
