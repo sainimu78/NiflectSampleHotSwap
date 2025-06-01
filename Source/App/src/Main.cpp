@@ -17,7 +17,7 @@ R"(--------------------------------------
 )", EXIT_KEY);
 
 	game->Start();
-	printf("Started ...\n");
+	printf("Running ...\n");
 
 	while (true)
 	{

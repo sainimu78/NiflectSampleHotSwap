@@ -1,5 +1,10 @@
 #include "Game.h"
 
+CGame::CGame()
+    : m_tickInterval(std::chrono::milliseconds(1000))
+    , m_isRunning(false)
+{
+}
 void CGame::Start()
 {
     ASSERT(!m_isRunning);
@@ -14,8 +19,8 @@ void CGame::Stop()
 }
 void CGame::Tick(double deltaTime)
 {
-	static int g_cnt = 0;
-	printf("Tick, %d\n", g_cnt++);
+    static int g_cnt = 0;
+    printf("Tick, %d\n", g_cnt++);
 }
 void CGame::RunLoop()
 {
@@ -24,11 +29,11 @@ void CGame::RunLoop()
     using fsec = std::chrono::duration<double>;
 
     constexpr int MAX_FRAME_SKIP = 5; // 防螺旋死亡
-    const auto TICK_INTERVAL = milliseconds(m_tickIntervalMs);
-    const double TIME_STEP = m_tickIntervalMs / 1000.0;
+    const auto& TICK_INTERVAL = m_tickInterval;
+    const double TIME_STEP = static_cast<double>(TICK_INTERVAL.count()) / 1000000.0;
 
     auto previousTime = clock::now();
-    auto accumulatedTime = 0ms;
+    auto accumulatedTime = 0us;
 
     while (m_isRunning)
     {
@@ -36,7 +41,7 @@ void CGame::RunLoop()
         auto currentTime = clock::now();
         auto frameTime = duration_cast<microseconds>(currentTime - previousTime);
         previousTime = currentTime;
-        accumulatedTime += duration_cast<milliseconds>(frameTime);
+        accumulatedTime += frameTime;
 
         // 2. 带保护的固定步长更新
         int framesUpdated = 0;
@@ -47,10 +52,10 @@ void CGame::RunLoop()
             framesUpdated++;
         }
 
-        //// 3. 计算插值因子（0.0-1.0）
-        //float interpolation = std::min(std::max(static_cast<float>(accumulatedTime.count()) / m_tickIntervalMs, 0.0f), 1.0f);
+        // 3. 计算插值因子（0.0-1.0）
+        double interpolation = std::min(std::max(static_cast<double>(accumulatedTime.count()) / static_cast<double>(m_tickInterval.count()), 0.0), 1.0);
 
-        //// 4. 渲染（使用插值平滑画面）
+        // 4. 渲染（使用插值平滑画面）
         //this->RenderWithInterpolation(interpolation);
 
         // 5. 增强型帧率控制
@@ -71,5 +76,5 @@ void CGame::RunLoop()
 
 CSharedGame CreateGame()
 {
-	return Niflect::MakeShared<CGame>();
+    return Niflect::MakeShared<CGame>();
 }

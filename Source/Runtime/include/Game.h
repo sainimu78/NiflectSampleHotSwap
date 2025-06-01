@@ -3,15 +3,12 @@
 #include "Niflect/Base/Array.h"
 #include <atomic>
 #include <thread>
+#include <chrono>
 
 class CGame
 {
 public:
-    CGame()
-        : m_tickIntervalMs(1000)
-        , m_isRunning(false)
-    {
-    }
+    CGame();
 
 public:
     void AddActor(const CSharedActor& actor)
@@ -22,14 +19,14 @@ public:
 public:
     RUNTIME_API void Start();
     RUNTIME_API void Stop();
-	RUNTIME_API void Tick(double deltaTime);
+    RUNTIME_API void Tick(double deltaTime);
 
 private:
     void RunLoop();
 
 private:
-	Niflect::TArray<CSharedActor> m_vecActor;
-    const int m_tickIntervalMs;
+    Niflect::TArray<CSharedActor> m_vecActor;
+    const std::chrono::microseconds m_tickInterval;
     std::atomic<bool> m_isRunning;
     std::thread m_thread;
 };
