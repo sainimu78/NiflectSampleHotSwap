@@ -1,10 +1,40 @@
 #include "Game.h"
 #include <iostream>
+#include "Niflect/NiflectModuleRegistry.h"
+#include "AntiCheatInterface.h"
+#include "RuntimeMethodHash.h"
 
 #define EXIT_KEY 'q'
 
 int main()
 {
+	auto reg = Niflect::GetModuleRegistry();
+	reg->InitRegisteredModules();
+	//for (uint32 idx0 = 0; idx0 < reg->GetModulesCount(); ++idx0)
+	//{
+	//	auto module = reg->GetModuleByIndex(idx0);
+	//	printf("Module: %s\n", module->GetName().c_str());
+	//	auto table = module->GetTable();
+	//	for (uint32 idx1 = 0; idx1 < table->GetTypesCount(); ++idx1)
+	//	{
+	//		auto type = table->GetTypeByIndex(idx1);
+	//		printf("%s\n", type->GetTypeName().c_str());
+	//	}
+	//}
+	//printf("");
+
+	CRuntimeMethodHash a(&CAntiCheatInterface::Detect);
+	CRuntimeMethodHash b(&CAntiCheatInterface::Detect);
+	ASSERT(a == b);
+	
+
+	auto type = Niflect::StaticGetType<CAntiCheatInterface>();
+	for (auto& it0 : type->m_vecMethodInfo)
+	{
+		//it0.m_signatureHash
+		//it0.m_vecInput
+	}
+
 	auto game = CreateGame();
 	auto actor = Niflect::MakeShared<CActor>();
 	game->AddActor(actor);
