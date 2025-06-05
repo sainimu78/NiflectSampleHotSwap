@@ -1,6 +1,6 @@
 #include "Game.h"
 #include <iostream>
-#include "Niflect/NiflectModuleRegistry.h"
+#include "Niflect/NiflectLoadTimeModuleRegistry.h"
 #include "AntiCheatInterface.h"
 #include "RuntimeMethodHash.h"
 
@@ -8,11 +8,11 @@
 
 int main()
 {
-	auto reg = Niflect::GetModuleRegistry();
-	reg->InitRegisteredModules();
-	//for (uint32 idx0 = 0; idx0 < reg->GetModulesCount(); ++idx0)
+	Niflect::CNiflectModuleRegistry2 reg;
+	reg.InitLoadTimeModules();
+	//for (uint32 idx0 = 0; idx0 < reg.GetModulesCount(); ++idx0)
 	//{
-	//	auto module = reg->GetModuleByIndex(idx0);
+	//	auto module = reg.GetModuleByIndex(idx0);
 	//	printf("Module: %s\n", module->GetName().c_str());
 	//	auto table = module->GetTable();
 	//	for (uint32 idx1 = 0; idx1 < table->GetTypesCount(); ++idx1)
