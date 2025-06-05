@@ -26,9 +26,11 @@ target_include_directories(${ModuleName}
 	PUBLIC ${IncludePathsPublic}
 )
 
-target_compile_definitions(${ModuleName} PRIVATE -DANTICHEAT_EXPORTS)
+#target_compile_definitions(${ModuleName} PRIVATE -DANTICHEAT_EXPORTS)
+target_compile_definitions(${ModuleName} PRIVATE -DPLUGIN_C_EXPORTS)
 
 ngt_target_link_libraries(${ModuleName} PRIVATE Runtime)
 
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
+set(v_EnabledLoadTimeModuleRegistrar TRUE)
 include(${c_RootProjectDirPath}/Niflect/Default.cmake)
