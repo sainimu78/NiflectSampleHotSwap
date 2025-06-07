@@ -1,7 +1,6 @@
-#include "Game.h"
 #include <iostream>
 #include "Niflect/NiflectLoadTimeModuleRegistry.h"
-#include "RuntimeMethodHash.h"
+#include "HotSwap/RuntimeMethodHash.h"
 #include "HotSwap/RunTimeModule.h"
 #include "HotSwap/Plugin.h"
 #include "HotSwap/HotSwap.h"
@@ -51,19 +50,22 @@ int main()
 		while (true)
 		{
 			bool ok = swapper.Reload();
-
-
+			ASSERT(ok);
 			uint32 methodIdx_Report = INDEX_NONE;
 			uint32 methodIdx_Detect = INDEX_NONE;
 			Niflect::TArray<SMethodBinding2> vecBinding;
 			auto type = Niflect::StaticGetType<CAntiCheat>();
 			vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
 			vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
-			swapper.Bind2(vecBinding);
-			swapper.Invoke(methodIdx_Detect);
-			swapper.Invoke(methodIdx_Report);
-			ASSERT(ok);
-
+			swapper.Bind(vecBinding);
+			if (methodIdx_Detect != INDEX_NONE)
+				swapper.Invoke(methodIdx_Detect);
+			else
+				printf("methodIdx_Detect is invalid\n");
+			if (methodIdx_Report != INDEX_NONE)
+				swapper.Invoke(methodIdx_Report);
+			else
+				printf("methodIdx_Report is invalid\n");
 
 			bool quit = false;
 			auto key = std::cin.get();
@@ -77,70 +79,8 @@ int main()
 			}
 			if (quit)
 				break;
-
-
-			//uint32 methodIdx_Report = INDEX_NONE;
-			//uint32 methodIdx_Detect = INDEX_NONE;
-			//Niflect::TArray<SMethodBinding> vecBinding;
-			//vecBinding.push_back({ "Rep", &methodIdx_Report });
-			//vecBinding.push_back({ "Det", &methodIdx_Detect });
-			//swapper.Bind(vecBinding);
-			//swapper.Invoke(methodIdx_Detect);
-			//swapper.Invoke(methodIdx_Report);
-			//ASSERT(ok);
 		}
 	}
 
-	return 0;
-
-	//{
-	//	CHotSwap swapper;
-	//	swapper.Init(Niflect::StaticGetType<CAntiCheatInterface>(), DEFAULT_PLUGIN_DIR_PATH, "AntiCheat", PluginInterfaceName_InitPlugin);
-	//	while (true)
-	//	{
-	//		bool ok = swapper.Reload();
-	//		ASSERT(ok);
-	//	}
-	//	//CRunTimeModule rtm;
-	//	//if (auto reg = rtm.Load(DEFAULT_PLUGIN_DIR_PATH, "AntiCheat", PluginInterfaceName_InitPlugin))
-	//	//{
-	//	//	DebugPrintRegistryTypes(reg);
-	//	//	printf("");
-	//	//}
-	//}
-
-	//CRuntimeMethodHash a(&CAntiCheatInterface::Detect);
-	//CRuntimeMethodHash b(&CAntiCheatInterface::Detect);
-	//ASSERT(a == b);
-	
-
-	//auto type = Niflect::StaticGetType<CAntiCheatInterface>();
-	//for (auto& it0 : type->m_vecMethodInfo)
-	//{
-	//	//it0.m_signatureHash
-	//	//it0.m_vecInput
-	//}
-
-	auto game = CreateGame();
-	auto actor = Niflect::MakeShared<CActor>();
-	game->AddActor(actor);
-
-	printf(
-R"(--------------------------------------
-1. Hot-Swap:	Press [Enter]
-2. Exit:	Press [%c] then [Enter]
---------------------------------------
-)", KEY_EXIT);
-
-	game->Start();
-	printf("Running ...\n");
-
-	while (true)
-	{
-		auto key = std::cin.get();
-		if (key == KEY_EXIT)
-			break;
-	}
-	game->Stop();
 	return 0;
 }

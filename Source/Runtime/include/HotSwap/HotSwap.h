@@ -5,12 +5,6 @@
 
 using namespace RwTree;
 
-struct SMethodBinding
-{
-	Niflect::CString m_inKeyword;
-	uint32* m_outIndex;
-};
-
 struct SMethodBinding2
 {
 	Niflect::HashInt m_signatureHash;
@@ -44,25 +38,7 @@ public:
 			return this->CreateAndMigrate(&rwOld);
 		return false;
 	}
-	void Bind(Niflect::TArray<SMethodBinding>& vecBinding)
-	{
-		auto& vecMethod = m_swappableType->m_vecMethodInfo;
-		for (auto& it0 : vecBinding)
-		{
-			bool found = false;
-			for (uint32 idx1 = 0; idx1 < vecMethod.size(); ++idx1)
-			{
-				auto& it1 = vecMethod[idx1];
-				if (it1.m_name.find(it0.m_inKeyword) != std::string::npos)
-				{
-					*it0.m_outIndex = idx1;
-					found = true;
-					break;
-				}
-			}
-		}
-	}
-	void Bind2(Niflect::TArray<SMethodBinding2>& vecBinding)
+	void Bind(Niflect::TArray<SMethodBinding2>& vecBinding)
 	{
 		auto& vecMethod = m_swappableType->m_vecMethodInfo;
 		for (auto& it0 : vecBinding)
@@ -96,9 +72,8 @@ public:
 private:
 	bool CreateAndMigrate(const CRwNode* rwOld)
 	{
-		this->BeforeLoading();
 		Niflect::CNiflectType* foundType = NULL;
-		if (auto reg = m_module.Load(m_pluginDirPath, this->GetVersionedModuleName(), m_loadTimeRegGetterFuncName))
+		if (auto reg = m_module.Load(m_pluginDirPath, m_moduleName, m_loadTimeRegGetterFuncName))
 		{
 			for (uint32 idx0 = 0; idx0 < reg->GetModulesCount(); ++idx0)
 			{
@@ -123,7 +98,6 @@ private:
 		{
 			ASSERT(false);
 		}
-		this->AfterLoading();
 		if (foundType != NULL)
 		{
 			m_swappableType = foundType;
@@ -146,17 +120,6 @@ private:
 		return false;
 	}
 	RUNTIME_API bool CopyPluginFromSourceDirPath() const;
-	RUNTIME_API Niflect::CString GetVersionedModuleName() const;
-	RUNTIME_API void BeforeLoading();
-	RUNTIME_API void AfterLoading();
-	Niflect::CString GetSrcLibFilePath() const
-	{
-		return ConvertToLibFilePath(m_sourceDirPath, m_moduleName);
-	}
-	Niflect::CString GetDstLibFilePath() const
-	{
-		return ConvertToLibFilePath(m_pluginDirPath, this->GetVersionedModuleName());
-	}
 
 private:
 	typedef void* DummyType;

@@ -38,9 +38,9 @@ public:
 
 public:
 	NIF_F()
-		int m_detectingCount = 0;
+	int m_detectingCount = 0;
 	NIF_F()
-		int m_reportingCount = 0;
+	int m_reportingCount = 0;
 };
 #elif RUNTIME_VERSION == 2
 NIF_T(CPluginTypeNata().SetHotSwappable())

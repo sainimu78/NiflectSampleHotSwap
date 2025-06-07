@@ -4,41 +4,13 @@
 
 bool CHotSwap::CopyPluginFromSourceDirPath() const
 {
-	const auto dstLibFilePath = this->GetDstLibFilePath();
-	const auto srcLibFilePath = this->GetSrcLibFilePath();
+	const auto srcLibFilePath = ConvertToLibFilePath(m_sourceDirPath, m_moduleName);
+	const auto dstLibFilePath = ConvertToLibFilePath(m_pluginDirPath, m_moduleName);
 	NiflectUtil::MakeDirectories(dstLibFilePath);
 	if (CopyFile(srcLibFilePath, dstLibFilePath))
 		return true;
 	ASSERT(false);
 	return false;
-}
-#ifdef WIN32
-static Niflect::CString GetSrcPdbFilePath(const Niflect::CString& srcLibFilePath)
-{
-	return NiflectUtil::RemoveFileExt(srcLibFilePath) + ".pdb";
-}
-#else
-#endif
-void CHotSwap::BeforeLoading()
-{
-#ifdef WIN32
-	const auto srcPdbFilePath = GetSrcPdbFilePath(this->GetSrcLibFilePath());
-	RenameFile(srcPdbFilePath, srcPdbFilePath + ".bak");
-#else
-#endif
-}
-void CHotSwap::AfterLoading()
-{
-#ifdef WIN32
-	const auto srcPdbFilePath = GetSrcPdbFilePath(this->GetSrcLibFilePath());
-	RenameFile(srcPdbFilePath + ".bak", srcPdbFilePath);
-#else
-#endif
-}
-Niflect::CString CHotSwap::GetVersionedModuleName() const
-{
-	return m_moduleName;
-	//return NiflectUtil::FormatString("%s_V%u", m_moduleName.c_str(), m_runtimeVersion);
 }
 
 #include <fstream>
