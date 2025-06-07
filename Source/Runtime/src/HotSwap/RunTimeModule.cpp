@@ -47,7 +47,7 @@ bool CRunTimeLinkingLibrary::Load(const Niflect::CString& dirPath, const Niflect
         return false;
     }
 #else
-    m_handle = dlopen(m_filePath.c_str(), RTLD_LAZY);
+    m_handle = dlopen(filePath.c_str(), RTLD_LAZY);
     if (!m_handle)
     {
         const char* err = dlerror();

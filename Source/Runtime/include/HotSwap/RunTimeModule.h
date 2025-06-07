@@ -23,7 +23,7 @@ public:
 	TFuncPtr FindSymbol(const Niflect::CString& symbolName) const
 	{
 		if (auto found = this->InternalFindSymbol(symbolName))
-			return static_cast<TFuncPtr>(found);
+			return reinterpret_cast<TFuncPtr>(found);
 		return NULL;
 	}
 
