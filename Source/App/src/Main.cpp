@@ -43,30 +43,50 @@ int main()
 {
 	Niflect::CNiflectModuleRegistry2 reg;
 	reg.InitLoadTimeModules();
+	printf("Tips:\n");
+
+	uint32 tipsCount = 0;
+#ifdef WIN32
+	printf(
+R"(%u. (For VS users) Must launch without debugger(Ctrl+F5) - Debug mode(F5) locks PDB files, preventing debug DLL rebuild.
+%u. (For VS users) Use "Debug > Attach to Process" for debugging the plugin DLL.
+)", tipsCount + 1, tipsCount + 2);
+	tipsCount += 2;
+#endif
+	printf(
+R"(%u. Press [Enter] to hot-swap.
+%u. Press [%c] then [Enter] to quit.
+)", tipsCount + 1, tipsCount + 2, KEY_EXIT);
+	printf("------------------------------------------\n");
 
 	{
+		const char* pszPluginName = "AntiCheat";
 		CHotSwap swapper;
-		swapper.Init(DEFAULT_PLUGIN_DIR_PATH, "AntiCheat", PluginInterfaceName_InitPlugin, "Swappable");
+		swapper.Init(DEFAULT_PLUGIN_DIR_PATH, pszPluginName, PluginInterfaceName_InitPlugin, "Swappable");
 		while (true)
 		{
-			bool ok = swapper.Reload();
-			ASSERT(ok);
-			uint32 methodIdx_Report = INDEX_NONE;
-			uint32 methodIdx_Detect = INDEX_NONE;
-			Niflect::TArray<SMethodBinding2> vecBinding;
-			auto type = Niflect::StaticGetType<CAntiCheat>();
-			vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
-			vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
-			swapper.Bind(vecBinding);
-			if (methodIdx_Detect != INDEX_NONE)
-				swapper.Invoke(methodIdx_Detect);
+			if (swapper.Reload())
+			{
+				uint32 methodIdx_Report = INDEX_NONE;
+				uint32 methodIdx_Detect = INDEX_NONE;
+				Niflect::TArray<SMethodBinding> vecBinding;
+				auto type = Niflect::StaticGetType<CAntiCheat>();
+				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
+				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
+				swapper.Bind(vecBinding);
+				if (methodIdx_Detect != INDEX_NONE)
+					swapper.Invoke(methodIdx_Detect);
+				else
+					printf("Method Detect not found\n");
+				if (methodIdx_Report != INDEX_NONE)
+					swapper.Invoke(methodIdx_Report);
+				else
+					printf("Method Report not found\n");
+			}
 			else
-				printf("methodIdx_Detect is invalid\n");
-			if (methodIdx_Report != INDEX_NONE)
-				swapper.Invoke(methodIdx_Report);
-			else
-				printf("methodIdx_Report is invalid\n");
-
+			{
+				printf("Fail to load the plugin, please build the %s project then try again\n", pszPluginName);
+			}
 			bool quit = false;
 			auto key = std::cin.get();
 			switch (key)

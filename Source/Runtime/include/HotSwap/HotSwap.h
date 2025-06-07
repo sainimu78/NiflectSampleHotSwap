@@ -5,7 +5,7 @@
 
 using namespace RwTree;
 
-struct SMethodBinding2
+struct SMethodBinding
 {
 	Niflect::HashInt m_signatureHash;
 	uint32* m_outIndex;
@@ -38,7 +38,7 @@ public:
 			return this->CreateAndMigrate(&rwOld);
 		return false;
 	}
-	void Bind(Niflect::TArray<SMethodBinding2>& vecBinding)
+	void Bind(Niflect::TArray<SMethodBinding>& vecBinding)
 	{
 		auto& vecMethod = m_swappableType->m_vecMethodInfo;
 		for (auto& it0 : vecBinding)
@@ -59,11 +59,7 @@ public:
 	template <typename ...TArgs>
 	void Invoke(uint32 methodIdx, TArgs&& ...args)
 	{
-		if (methodIdx == INDEX_NONE)
-		{
-			printf("Invocation failed, invalid method index\n");
-			return;
-		}
+		ASSERT(methodIdx != INDEX_NONE);
 		std::array<Niflect::InstanceType*, sizeof ...(TArgs)> argArray = { (&args)... };
 		auto& Func = m_swappableType->m_vecMethodInfo[methodIdx].m_Func;
 		Func(m_swappableInstance.Get(), argArray.data());
@@ -109,15 +105,16 @@ private:
 	}
 	bool SaveAndDestroy(CRwNode* rw)
 	{
+		bool saved = false;
 		if (m_swappableInstance != NULL)
 		{
 			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
 			m_swappableType = NULL;
 			m_swappableInstance = NULL;
-			m_module.Unload();
-			return true;
+			saved = true;
 		}
-		return false;
+		m_module.Unload();
+		return saved;
 	}
 	RUNTIME_API bool CopyPluginFromSourceDirPath() const;
 
