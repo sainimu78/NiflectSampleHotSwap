@@ -2,7 +2,6 @@
 #include "RunTimeModule.h"
 #include "Niflect/Serialization/RwTree.h"
 #include "HotSwap/Nata.h"
-#include "Niflect/Serialization/JsonFormat.h"
 
 using namespace RwTree;
 
@@ -38,16 +37,11 @@ public:
 	}
 	bool Reload()
 	{
-		Niflect::CStringStream ss;
-		auto canMig = this->SaveAndDestroy(ss);
+		CRwNode rwOld;
+		this->SaveAndDestroy(&rwOld);
 		m_runtimeVersion++;
 		if (this->CopyPluginFromSourceDirPath())
-		{
-			CRwNode rw;
-			if (canMig)
-				CJsonFormat::Read(&rw, ss);
-			return this->CreateAndMigrate(&rw);
-		}
+			return this->CreateAndMigrate(&rwOld);
 		return false;
 	}
 	void Bind(Niflect::TArray<SMethodBinding>& vecBinding)
@@ -139,14 +133,11 @@ private:
 		}
 		return false;
 	}
-	bool SaveAndDestroy(Niflect::CStringStream& ss)
+	bool SaveAndDestroy(CRwNode* rw)
 	{
 		if (m_swappableInstance != NULL)
 		{
-			auto rw = CreateRwNode();
-			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw.Get());
-			CJsonFormat::Write(rw.Get(), ss);
-			rw = NULL;//todo: 检查为何不能在卸载后释放 rw, 现推断可能由于 rw 创建写在头文件中导致 PlacementMakeShared 的函数为被卸载模块中定义
+			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
 			m_swappableType = NULL;
 			m_swappableInstance = NULL;
 			m_module.Unload();
