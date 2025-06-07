@@ -33,6 +33,7 @@ list(APPEND v_ListAccessorSettingHeaderFilePath ${ModuleIncludePath}/AccessorSet
 #list(APPEND v_ListModuleIncludeDirPath ${IncludePathsPublic})
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
 set(v_EnabledLoadTimeModuleRegistrar TRUE)
+#set(v_EnabledDebuggerAttaching TRUE)
 #set(v_ModuleAPIMacro ENGINE_API)
 #set(v_ModuleAPIMacroHeaderFilePath ${ModuleIncludePath}/Engine/EngineCommon.h)
 include(${c_RootProjectDirPath}/Niflect/Default.cmake)

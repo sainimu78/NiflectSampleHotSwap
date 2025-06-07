@@ -25,6 +25,13 @@ file(GLOB_RECURSE ModuleSources ${ModuleSourcePath}/*.cpp ${ModuleSourcePath}/*.
 create_source_group(${ModuleSourcePath} ${ModuleSources})
 file(GLOB_RECURSE ModuleHeaders ${ModuleIncludePath}/*.h)
 create_source_group(${ModuleIncludePath} ${ModuleHeaders})
+
+set(AntiCheatIncludePath ${c_RootSourceDirPath}/Plugin/AntiCheat/include)
+file(GLOB_RECURSE AntiCheatHeaders ${AntiCheatIncludePath}/*.h)
+create_source_group(${AntiCheatIncludePath} ${AntiCheatHeaders})
+list(APPEND ModuleHeaders ${AntiCheatHeaders})
+list(APPEND IncludePathsPrivate ${AntiCheatIncludePath})
+
 set(SrcAll "")
 list(APPEND SrcAll ${ModuleSources})
 list(APPEND SrcAll ${ModuleHeaders})
@@ -39,6 +46,7 @@ target_include_directories(${ModuleName}
 ngt_target_link_libraries(${ModuleName} PRIVATE Runtime)
 
 list(APPEND v_ListModuleHeaderFilePath ${ModuleHeaders})
+set(v_EnabledLoadTimeModuleRegistrar TRUE)
 include(${c_RootProjectDirPath}/Niflect/Default.cmake)
 
 include(${c_ProjectDirPath}/Install.cmake)

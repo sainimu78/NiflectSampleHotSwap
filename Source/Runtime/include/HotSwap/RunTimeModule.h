@@ -2,6 +2,8 @@
 #include "Niflect/Base/String.h"
 #include "Niflect/NiflectLoadTimeModuleRegistry.h"
 
+RUNTIME_API Niflect::CString ConvertToLibFilePath(const Niflect::CString& dirPath, const Niflect::CString& libName);
+
 class CRunTimeLinkingLibrary
 {
 public:
@@ -15,7 +17,7 @@ public:
 	}
 
 public:
-	RUNTIME_API bool Load(const Niflect::CString& directory, const Niflect::CString& libraryName);
+	RUNTIME_API bool Load(const Niflect::CString& dirPath, const Niflect::CString& libName);
 	RUNTIME_API void Unload();
 	template <typename TFuncPtr>
 	TFuncPtr FindSymbol(const Niflect::CString& symbolName) const
@@ -46,6 +48,10 @@ public:
 				return Func();
 		}
 		return NULL;
+	}
+	void Unload()
+	{
+		m_lib.Unload();
 	}
 
 private:

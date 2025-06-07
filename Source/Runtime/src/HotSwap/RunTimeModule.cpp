@@ -28,24 +28,30 @@ static Niflect::CString FormatLibraryFilePath(const Niflect::CString& directory,
     path += libraryName + LIB_POSTFIX;
     return path;
 }
-bool CRunTimeLinkingLibrary::Load(const Niflect::CString& directory, const Niflect::CString& libraryName)
+
+Niflect::CString ConvertToLibFilePath(const Niflect::CString& dirPath, const Niflect::CString& libName)
 {
-    NIFLECT_ASSERT(libraryName.find_last_of(LIB_POSTFIX) == std::string::npos);
-    auto path = FormatLibraryFilePath(directory, libraryName);
+    NIFLECT_ASSERT(libName.find_last_of(LIB_POSTFIX) == std::string::npos);
+    return FormatLibraryFilePath(dirPath, libName);
+}
+
+bool CRunTimeLinkingLibrary::Load(const Niflect::CString& dirPath, const Niflect::CString& libName)
+{
+    const auto filePath = ConvertToLibFilePath(dirPath, libName);
 #if defined(_WIN32)
-    m_handle = LoadLibrary(path.c_str());
+    m_handle = LoadLibrary(filePath.c_str());
     if (!m_handle)
     {
         DWORD err = GetLastError();
-        throw std::runtime_error(("LoadLibrary failed: " + path + " (Error: " + std::to_string(err).c_str() + ")").c_str());
+        throw std::runtime_error(("LoadLibrary failed: " + filePath + " (Error: " + std::to_string(err).c_str() + ")").c_str());
         return false;
     }
 #else
-    m_handle = dlopen(path.c_str(), RTLD_LAZY);
+    m_handle = dlopen(m_filePath.c_str(), RTLD_LAZY);
     if (!m_handle)
     {
         const char* err = dlerror();
-        throw std::runtime_error(("dlopen failed: " + path + " (Error: " + (err ? err : "unknown") + ")").c_str());
+        throw std::runtime_error(("dlopen failed: " + filePath + " (Error: " + (err ? err : "unknown") + ")").c_str());
         return false;
     }
 #endif
@@ -60,6 +66,7 @@ void CRunTimeLinkingLibrary::Unload()
 #else
         dlclose(m_handle);
 #endif
+        m_handle = NULL;
     }
 }
 void* CRunTimeLinkingLibrary::InternalFindSymbol(const Niflect::CString& symbolName) const
