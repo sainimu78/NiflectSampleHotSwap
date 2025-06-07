@@ -29,10 +29,17 @@ public:
 	bool Reload()
 	{
 		CRwNode rwOld;
-		this->SaveAndDestroy(&rwOld);
+		bool wasValid = this->SaveAndDestroy(&rwOld);
 		m_runtimeVersion++;
 		if (this->CopyPluginFromSourceDirPath())
+		{
 			return this->CreateAndMigrate(&rwOld);
+		}
+		else
+		{
+			if (wasValid)
+				ASSERT(false);
+		}
 		return false;
 	}
 	void Bind(Niflect::TArray<SMethodBinding>& vecBinding)

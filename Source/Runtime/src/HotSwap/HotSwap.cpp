@@ -9,6 +9,5 @@ bool CHotSwap::CopyPluginFromSourceDirPath() const
 	NiflectUtil::MakeDirectories(dstLibFilePath);
 	if (NiflectUtil::CopyFile(srcLibFilePath, dstLibFilePath))
 		return true;
-	ASSERT(false);
 	return false;
 }
