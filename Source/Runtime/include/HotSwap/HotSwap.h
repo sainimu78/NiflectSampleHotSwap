@@ -11,9 +11,6 @@ struct SMethodBinding
 	uint32* m_outIndex;
 };
 
-RUNTIME_API bool CopyFile(const Niflect::CString& srcFilePath, const Niflect::CString& dstFilePath);
-RUNTIME_API bool RenameFile(const Niflect::CString& old_path, const Niflect::CString& new_path);
-
 class CHotSwap
 {
 public:
