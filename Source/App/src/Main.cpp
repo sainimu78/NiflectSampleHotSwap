@@ -43,8 +43,8 @@ int main()
 {
 	Niflect::CNiflectModuleRegistry2 reg;
 	reg.InitLoadTimeModules();
-	printf("Tips:\n");
 
+	printf("Tips:\n");
 	uint32 tipsCount = 0;
 #ifdef WIN32
 	printf(
