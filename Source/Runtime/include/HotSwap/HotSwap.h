@@ -115,20 +115,13 @@ private:
 			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
 			saved = true;
 		}
-		this->Destroy();
+		this->DestroyInstance();
 		return saved;
 	}
-	void Destroy()
-	{
-		if (m_swappableInstance != NULL)
-		{
-			m_swappableType = NULL;
-			m_swappableInstance = NULL;
-		}
-		m_module.Unload();
-	}
+	RUNTIME_API void DestroyInstance();
 	RUNTIME_API bool CopyPluginFromSourceDirPath() const;
 	RUNTIME_API Niflect::CString GetVersionedModuleName() const;
+	RUNTIME_API Niflect::CString GetDesiredPluginLibFilePath() const;
 
 private:
 	typedef void* DummyType;
