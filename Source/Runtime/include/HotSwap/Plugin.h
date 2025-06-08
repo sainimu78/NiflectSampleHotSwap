@@ -44,16 +44,5 @@
 
 #define DEFAULT_PLUGIN_DIR_PATH "../../../../../Plugin/" CPF_PLATFORM_OS_NAME "/DefaultBuild/" CPF_CONFIG_NAME "/" CPF_FINAL_OUTPUT_DIR_NAME
 
-class CPluginInstance
-{
-public:
-	CPluginInstance()
-	{
-		m_reg.InitLoadTimeModules();
-	}
-	Niflect::CNiflectModuleRegistry2 m_reg;
-};
-using CSharedPluginInstance = Niflect::TSharedPtr<CPluginInstance>;
-
-constexpr const char* PluginInterfaceName_InitPlugin = "InitPlugin";
-PLUGIN_C_API Niflect::CNiflectModuleRegistry2* InitPlugin();
+//constexpr const char* PluginInterfaceName_CreatePluginInstance = "CreatePluginInstance";
+//PLUGIN_C_API void CreatePluginInstance(CSharedPluginInstance* out);

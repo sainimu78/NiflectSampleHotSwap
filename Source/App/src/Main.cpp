@@ -62,7 +62,7 @@ R"(%u. Press [Enter] to hot-swap.
 	{
 		const char* pszPluginName = "AntiCheat";
 		CHotSwap swapper;
-		swapper.Init(DEFAULT_PLUGIN_DIR_PATH, pszPluginName, PluginInterfaceName_InitPlugin, "Swappable");
+		swapper.Init(DEFAULT_PLUGIN_DIR_PATH, pszPluginName, "", "Swappable");
 		while (true)
 		{
 			if (swapper.Reload())

@@ -19,6 +19,7 @@ public:
 		, m_runtimeVersion(INDEX_NONE)
 	{
 	}
+	RUNTIME_API ~CHotSwap();
 	void Init(const Niflect::CString& sourceDirPath, const Niflect::CString& moduleName, const Niflect::CString& loadTimeRegGetterFuncName, const Niflect::CString& pluginDirPath)
 	{
 		m_sourceDirPath = sourceDirPath;
@@ -73,7 +74,7 @@ private:
 	bool CreateAndMigrate(const CRwNode* rwOld)
 	{
 		Niflect::CNiflectType* foundType = NULL;
-		if (auto reg = m_module.Load(m_pluginDirPath, m_moduleName, m_loadTimeRegGetterFuncName))
+		if (auto reg = m_module.Load(m_pluginDirPath, this->GetVersionedModuleName(), m_loadTimeRegGetterFuncName))
 		{
 			for (uint32 idx0 = 0; idx0 < reg->GetModulesCount(); ++idx0)
 			{
@@ -112,7 +113,8 @@ private:
 		bool saved = false;
 		if (m_swappableInstance != NULL)
 		{
-			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
+			if (rw != NULL)
+				m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
 			m_swappableType = NULL;
 			m_swappableInstance = NULL;
 			saved = true;
@@ -121,6 +123,7 @@ private:
 		return saved;
 	}
 	RUNTIME_API bool CopyPluginFromSourceDirPath() const;
+	RUNTIME_API Niflect::CString GetVersionedModuleName() const;
 
 private:
 	typedef void* DummyType;

@@ -40,21 +40,31 @@ private:
 class CRunTimeModule
 {
 public:
-	Niflect::CNiflectModuleRegistry2* Load(const Niflect::CString& dirPath, const Niflect::CString& libName, const Niflect::CString& GetLoadTimeModuleRegistryFuncName)
+	Niflect::CNiflectModuleRegistry2* Load(const Niflect::CString& dirPath, const Niflect::CString& libName, const Niflect::CString& CreateFuncName)
 	{
 		if (m_lib.Load(dirPath, libName))
 		{
-			if (auto Func = m_lib.FindSymbol<GetLoadTimeModuleRegistryFunc>(GetLoadTimeModuleRegistryFuncName))
-				return Func();
+			m_reg = Niflect::MakeShared<Niflect::CNiflectModuleRegistry2>();
+			if (m_reg->InitLoadTimeModules())
+				return m_reg.Get();
+			//if (auto Func = m_lib.FindSymbol<CreatePluginInstanceFunc>(CreateFuncName))
+			//{
+			//	ASSERT(m_pluginInstance != NULL);
+			//	Func(&m_pluginInstance);
+			//	return &m_pluginInstance->m_reg;
+			//}
 		}
 		return NULL;
 	}
 	void Unload()
 	{
+		m_reg = NULL;
 		m_lib.Unload();
 	}
 
 private:
 	CRunTimeLinkingLibrary m_lib;
-	typedef Niflect::CNiflectModuleRegistry2* (*GetLoadTimeModuleRegistryFunc)();
+	//CSharedPluginInstance m_pluginInstance;
+	//typedef void (*CreatePluginInstanceFunc)(CSharedPluginInstance* out);
+	Niflect::CSharedModuleRegistry2 m_reg;
 };
