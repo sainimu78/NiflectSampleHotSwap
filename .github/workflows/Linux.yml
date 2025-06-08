@@ -1,0 +1,61 @@
+# This starter workflow is for a CMake project running on a single platform. There is a different starter workflow if you need cross-platform coverage.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
+name: CMake on Linux
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  c_ProjectPlatform: "Linux"
+  c_ProjectName0: "App"
+  c_ProjectName1: "Plugin"
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
+    # You can convert this to a matrix build if you need cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:  # 必须用 with 包裹参数
+        submodules: recursive  # 关键：递归克隆子模块, 操作包含 git submodule update --init --remote
+        token: ${{ secrets.GITHUB_TOKEN }}  # 使用 GitHub 自动生成的 Token, 用于更新 submodule
+
+    - name: Install Dependencies  # Linux 系统需要安装构建工具
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential cmake
+
+    - name: Check Submodules
+      run: |
+        echo "检查子模块状态"
+        ls -la ThirdParty/CMakeProjectFramework
+
+    - name: Configure 0
+      working-directory: Build/${{env.c_ProjectName0}}/${{env.c_ProjectPlatform}}
+      run: |
+        echo "当前工作目录: $(pwd)"
+        ./Generate.sh
+
+    - name: Build 0
+      working-directory: Build/${{env.c_ProjectName0}}/${{env.c_ProjectPlatform}}
+      run: |
+        ./Build.sh
+
+    - name: Configure 1
+      working-directory: Build/${{env.c_ProjectName1}}/${{env.c_ProjectPlatform}}
+      run: |
+        echo "当前工作目录: $(pwd)"
+        ./Generate.sh
+
+    - name: Build 1
+      working-directory: Build/${{env.c_ProjectName1}}/${{env.c_ProjectPlatform}}
+      run: |
+        ./Build.sh
