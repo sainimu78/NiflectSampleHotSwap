@@ -65,7 +65,7 @@ R"(%u. Press [Enter] to hot-swap.
 		swapper.Init(DEFAULT_PLUGIN_DIR_PATH, pszPluginName, "Swappable");
 		while (true)
 		{
-			if (swapper.Reload())
+			if (swapper.Swap())
 			{
 				uint32 methodIdx_Report = INDEX_NONE;
 				uint32 methodIdx_Detect = INDEX_NONE;

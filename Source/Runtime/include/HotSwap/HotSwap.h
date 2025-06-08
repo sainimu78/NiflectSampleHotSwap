@@ -26,7 +26,7 @@ public:
 		m_moduleName = moduleName;
 		m_pluginDirPath = pluginDirPath;
 	}
-	bool Reload()
+	bool Swap()
 	{
 		CRwNode rwOld;
 		bool wasValid = this->SaveAndDestroy(&rwOld);
