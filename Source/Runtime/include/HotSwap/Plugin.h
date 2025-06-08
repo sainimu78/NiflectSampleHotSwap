@@ -43,6 +43,3 @@
 #endif
 
 #define DEFAULT_PLUGIN_DIR_PATH "../../../../../Plugin/" CPF_PLATFORM_OS_NAME "/DefaultBuild/" CPF_CONFIG_NAME "/" CPF_FINAL_OUTPUT_DIR_NAME
-
-//constexpr const char* PluginInterfaceName_CreatePluginInstance = "CreatePluginInstance";
-//PLUGIN_C_API void CreatePluginInstance(CSharedPluginInstance* out);

@@ -4,7 +4,7 @@
 
 CHotSwap::~CHotSwap()
 {
-	this->SaveAndDestroy(NULL);
+	this->Destroy();
 	NiflectUtil::DeleteDirectory(m_pluginDirPath);
 }
 Niflect::CString CHotSwap::GetVersionedModuleName() const
