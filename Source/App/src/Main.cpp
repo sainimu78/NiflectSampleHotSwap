@@ -71,6 +71,28 @@ R"(%u. Press [Enter] to hot-swap.
 				uint32 methodIdx_Detect = INDEX_NONE;
 				Niflect::TArray<SMethodBinding> vecBinding;
 				auto type = Niflect::StaticGetType<CAntiCheat>();
+
+				{
+					void PrintTypes() {
+						std::cout << "End\n";
+					}
+
+					// 递归展开参数包
+					template <typename TFirst, typename... TRest>
+					void PrintTypes(TFirst&&, TRest&&...rest) {
+						// 打印当前类型（移除引用和cv限定符）
+						std::cout << typeid(std::remove_reference_t<TFirst>).name() << "\n";
+						// 递归处理剩余参数
+						PrintTypes(std::forward<TRest>(rest)...);
+					}
+
+					template <typename... TArgs>
+					void Invoke2(TArgs&&... args) {
+						std::cout << "Argument types:\n";
+						PrintTypes(std::forward<TArgs>(args)...); // 递归展开
+					}
+				}
+
 				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
 				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
 				swapper.Bind(vecBinding);
