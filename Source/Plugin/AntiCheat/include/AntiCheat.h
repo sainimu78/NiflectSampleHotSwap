@@ -1,6 +1,17 @@
 #pragma once
 #include "HotSwap/Nata.h"
+#include "HotSwap/TypeSafeInvocationBestPractice.h"
 #include "AntiCheat_gen.h"
+
+NIF_T()
+class CDetectingContext : public CInvocationContext
+{
+};
+
+NIF_T()
+class CReportingContext : public CInvocationContext
+{
+};
 
 #define RUNTIME_VERSION 1
 
@@ -10,12 +21,12 @@ class CAntiCheat
 {
 public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
-	void Detect()
+	void Detect(CDetectingContext& ctx)
 	{
 		printf("detecting ...\n");
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
-	void Report()
+	void Report(CReportingContext& ctx)
 	{
 		printf("reporting ...\n");
 	}
@@ -26,12 +37,12 @@ class CAntiCheat
 {
 public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
-	void Detect()
+	void Detect(CDetectingContext& ctx)
 	{
 		printf("detecting %d\n", m_detectingCount++);
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
-	void Report()
+	void Report(CReportingContext& ctx)
 	{
 		printf("reporting %d\n", m_reportingCount++);
 	}
@@ -48,12 +59,12 @@ class CAntiCheat
 {
 public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
-	void Detect()
+	void Detect(CDetectingContext& ctx)
 	{
 		printf("detecting ...\n");
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
-	void Report()
+	void Report(CReportingContext& ctx)
 	{
 		printf("reporting ...\n");
 	}

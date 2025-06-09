@@ -2,6 +2,7 @@
 #include "RunTimeModule.h"
 #include "Niflect/Serialization/RwTree.h"
 #include "HotSwap/Nata.h"
+#include "HotSwap/TypeSafeInvocationBestPractice.h"
 
 using namespace RwTree;
 
@@ -60,8 +61,17 @@ public:
 			}
 		}
 	}
+	void InvokeBestPractice(uint32 methodIdx, CInvocationContext& derivedCtx)
+	{
+		ASSERT(methodIdx != INDEX_NONE);
+		auto& Func = m_swappableType->m_vecMethodInfo[methodIdx].m_Func;
+		std::array<Niflect::InstanceType*, 1> argArray = { &derivedCtx };
+		Func(m_swappableInstance.Get(), argArray.data());
+	}
+
+private:
 	template <typename ...TArgs>
-	void Invoke(uint32 methodIdx, TArgs&& ...args)
+	void Reserved_InvokeWithoutTypeChecking(uint32 methodIdx, TArgs&& ...args)
 	{
 		ASSERT(methodIdx != INDEX_NONE);
 		std::array<Niflect::InstanceType*, sizeof ...(TArgs)> argArray = { (&args)... };
@@ -101,7 +111,7 @@ private:
 		if (foundType != NULL)
 		{
 			m_swappableType = foundType;
-			ASSERT(m_swappableType->m_vecConstructorInfo.size() > 0);//可能帏未正确定义继承类, 如未 override 所有纯虚函数
+			ASSERT(m_swappableType->m_vecConstructorInfo.size() > 0);//可能未正确定义继承类, 如未 override 所有纯虚函数
 			m_swappableInstance = Niflect::NiflectTypeMakeShared<DummyType>(m_swappableType);
 			return m_swappableType->LoadInstanceFromRwNode(m_swappableInstance.Get(), rwOld);
 		}

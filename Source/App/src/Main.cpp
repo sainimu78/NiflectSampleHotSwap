@@ -74,12 +74,14 @@ R"(%u. Press [Enter] to hot-swap.
 				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
 				vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
 				swapper.Bind(vecBinding);
+				CDetectingContext detectingCtx;
 				if (methodIdx_Detect != INDEX_NONE)
-					swapper.Invoke(methodIdx_Detect);
+					swapper.InvokeBestPractice(methodIdx_Detect, detectingCtx);
 				else
 					printf("Method Detect not found\n");
+				CReportingContext reportingCtx;
 				if (methodIdx_Report != INDEX_NONE)
-					swapper.Invoke(methodIdx_Report);
+					swapper.InvokeBestPractice(methodIdx_Report, reportingCtx);
 				else
 					printf("Method Report not found\n");
 			}
