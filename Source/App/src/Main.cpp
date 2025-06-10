@@ -15,7 +15,7 @@ static Niflect::HashInt FindMethodSignatureHash(Niflect::CNiflectType* type, TMe
 	for (uint32 idx = 0; idx < type->m_vecMethodInfo.size(); ++idx)
 	{
 		auto& method = type->m_vecMethodInfo[idx];
-		if (auto nata = Niflect::CastDerivedNata<CPluginMethodNata>(method.m_nata.Get()))
+		if (auto nata = Niflect::CastDerivedNata<CMethodNata>(method.m_nata.Get()))
 		{
 			if (nata->m_methodHash == hashToFind)
 				return method.m_signatureHash;

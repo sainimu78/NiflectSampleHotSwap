@@ -2,22 +2,22 @@
 #include "Niflect/NiflectNata.h"
 #include "RuntimeMethodHash.h"
 
-class CPluginTypeNata : public Niflect::CNata
+class CTypeNata : public Niflect::CNata
 {
-	typedef CPluginTypeNata CThis;
+	typedef CTypeNata CThis;
 public:
-	CThis& SetHotSwappable() { m_isHotSwappable = true; return *this; }
+	CThis& SetSwappable() { m_isSwappable = true; return *this; }
 
 public:
-	bool m_isHotSwappable = false;
+	bool m_isSwappable = false;
 };
 
-class CPluginMethodNata : public Niflect::CNata
+class CMethodNata : public Niflect::CNata
 {
-	typedef CPluginMethodNata CThis;
+	typedef CMethodNata CThis;
 public:
 	template <typename TMethodAddr>
-	CThis& SetMethodHash(TMethodAddr&& methodAddr) { m_methodHash = CRuntimeMethodHash(methodAddr); return *this; }
+	CThis& SetHash(TMethodAddr&& methodAddr) { m_methodHash = CRuntimeMethodHash(methodAddr); return *this; }
 
 public:
 	CRuntimeMethodHash m_methodHash;

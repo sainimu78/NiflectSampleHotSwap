@@ -16,32 +16,32 @@ class CReportingContext : public CInvocationContext
 #define RUNTIME_VERSION 1
 
 #if RUNTIME_VERSION == 0
-NIF_T(CPluginTypeNata().SetHotSwappable())
+NIF_T(CTypeNata().SetSwappable())
 class CAntiCheat
 {
 public:
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
 		printf("Detecting ...\n");
 	}
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
 		printf("Reporting ...\n");
 	}
 };
 #elif RUNTIME_VERSION == 1
-NIF_T(CPluginTypeNata().SetHotSwappable())
+NIF_T(CTypeNata().SetSwappable())
 class CAntiCheat
 {
 public:
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
 		printf("Detecting %d\n", m_detectingCount++);
 	}
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
 		printf("Reporting %d\n", m_reportingCount++);
@@ -54,16 +54,16 @@ public:
 	int m_reportingCount = 0;
 };
 #elif RUNTIME_VERSION == 2
-NIF_T(CPluginTypeNata().SetHotSwappable())
+NIF_T(CTypeNata().SetSwappable())
 class CAntiCheat
 {
 public:
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
 		printf("Detecting ...\n");
 	}
-	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
 		printf("Reporting ...\n");
