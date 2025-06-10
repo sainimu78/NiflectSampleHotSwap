@@ -73,6 +73,7 @@ private:
 	template <typename ...TArgs>
 	void Reserved_InvokeWithoutTypeChecking(uint32 methodIdx, TArgs&& ...args)
 	{
+		//通过扩展维护困难的模板元编程类型检查, 见备用参考 TypeSafeInvocation_BadAlternative_MethodProxy
 		ASSERT(methodIdx != INDEX_NONE);
 		std::array<Niflect::InstanceType*, sizeof ...(TArgs)> argArray = { (&args)... };
 		auto& Func = m_swappableType->m_vecMethodInfo[methodIdx].m_Func;
