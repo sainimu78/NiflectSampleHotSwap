@@ -23,12 +23,12 @@ public:
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("Detecting ...\n");
+		printf("No suspicious\n");
 	}
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("Reporting ...\n");
+		printf("Nothing to report\n");
 	}
 };
 #elif RUNTIME_VERSION == 1
@@ -39,21 +39,25 @@ public:
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("Detecting %d\n", m_detectingCount++);
+		printf("Traditional anti-cheat, %d\n", m_detectingCount++);
 	}
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("Reporting %d\n", m_reportingCount++);
+		printf("Nothing to report\n");
 	}
-
-public:
 	NIF_F()
 	int m_detectingCount = 0;
-	NIF_F()
-	int m_reportingCount = 0;
 };
 #elif RUNTIME_VERSION == 2
+static void PrintCheaters(const std::map<std::string, int>& map)
+{
+	printf("Cheaters: %u\n", static_cast<uint32>(map.size()));
+	uint32 idx = 0;
+	for (auto& it : map)
+		printf("%u: %s, %d\n", idx++, it.first.c_str(), it.second);
+}
+
 NIF_T(CTypeNata().SetSwappable())
 class CAntiCheat
 {
@@ -61,18 +65,36 @@ public:
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("Detecting ...\n");
+		printf("Modern anti-cheat, %d\n", m_detectingCount++);
+		m_map["A"] = 123;
+		m_map["B"] = 456;
 	}
 	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("Reporting ...\n");
+		PrintCheaters(m_map);
 	}
-
-public:
+	NIF_F()
+	std::map<std::string, int> m_map;
 	NIF_F()
 	int m_detectingCount = 0;
+};
+#elif RUNTIME_VERSION == 3
+NIF_T(CTypeNata().SetSwappable())
+class CAntiCheat
+{
+public:
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Detect))
+	void Detect(CDetectingContext& ctx)
+	{
+		printf("Traditional anti-cheat, %d\n", m_detectingCount);
+	}
+	NIF_M(CMethodNata().SetHash(&CAntiCheat::Report))
+	void Report(CReportingContext& ctx)
+	{
+		printf("Finished\n");
+	}
 	NIF_F()
-	int m_reportingCount = 0;
+	int m_detectingCount = 0;
 };
 #endif
