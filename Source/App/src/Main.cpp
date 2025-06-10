@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Niflect/NiflectLoadTimeModuleRegistry.h"
 #include "HotSwap/RuntimeMethodHash.h"
-#include "HotSwap/RunTimeModule.h"
 #include "HotSwap/Plugin.h"
 #include "HotSwap/HotSwap.h"
 #include "AntiCheat.h"
@@ -9,20 +8,6 @@
 
 #define KEY_EXIT 'q'
 
-static void DebugPrintRegistryTypes(Niflect::CNiflectModuleRegistry2* reg)
-{
-	for (uint32 idx0 = 0; idx0 < reg->GetModulesCount(); ++idx0)
-	{
-		auto module = reg->GetModuleByIndex(idx0);
-		printf("Module: %s\n", module->GetName().c_str());
-		auto table = module->GetTable();
-		for (uint32 idx1 = 0; idx1 < table->GetTypesCount(); ++idx1)
-		{
-			auto type = table->GetTypeByIndex(idx1);
-			printf("%s\n", type->GetTypeName().c_str());
-		}
-	}
-}
 template <typename TMethodAddr>
 static Niflect::HashInt FindMethodSignatureHash(Niflect::CNiflectType* type, TMethodAddr&& methodAddr)
 {
@@ -38,12 +23,8 @@ static Niflect::HashInt FindMethodSignatureHash(Niflect::CNiflectType* type, TMe
 	}
 	return INVALID_HASH;
 }
-
-int main()
+static void PrintTips()
 {
-	Niflect::CNiflectModuleRegistry2 reg;
-	reg.InitLoadTimeModules();
-
 	printf("Tips:\n");
 	uint32 tipsCount = 0;
 #ifdef WIN32
@@ -58,6 +39,14 @@ R"(%u. Press [Enter] to hot-swap.
 %u. Press [%c] then [Enter] to quit.
 )", tipsCount + 1, tipsCount + 2, KEY_EXIT);
 	printf("------------------------------------------\n");
+}
+
+int main()
+{
+	PrintTips();
+
+	Niflect::CNiflectModuleRegistry2 reg;
+	reg.InitLoadTimeModules();
 
 	{
 		const char* pszPluginName = "AntiCheat";
