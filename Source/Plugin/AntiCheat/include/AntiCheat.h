@@ -23,12 +23,12 @@ public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("detecting ...\n");
+		printf("Detecting ...\n");
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("reporting ...\n");
+		printf("Reporting ...\n");
 	}
 };
 #elif RUNTIME_VERSION == 1
@@ -39,12 +39,12 @@ public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("detecting %d\n", m_detectingCount++);
+		printf("Detecting %d\n", m_detectingCount++);
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("reporting %d\n", m_reportingCount++);
+		printf("Reporting %d\n", m_reportingCount++);
 	}
 
 public:
@@ -61,12 +61,12 @@ public:
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Detect))
 	void Detect(CDetectingContext& ctx)
 	{
-		printf("detecting ...\n");
+		printf("Detecting ...\n");
 	}
 	NIF_M(CPluginMethodNata().SetMethodHash(&CAntiCheat::Report))
 	void Report(CReportingContext& ctx)
 	{
-		printf("reporting ...\n");
+		printf("Reporting ...\n");
 	}
 
 public:
