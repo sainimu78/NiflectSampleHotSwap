@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace TypeSafeInvocation_BadAlternative_MethodProxy
+namespace TypeSafeInvocationBadAlternative
 {
     typedef void InstanceType;
     typedef void (*InvokeMethodFunc)(InstanceType* base, InstanceType** const args);
