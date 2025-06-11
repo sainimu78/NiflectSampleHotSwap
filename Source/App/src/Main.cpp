@@ -89,31 +89,33 @@ int main()
 				if (wasCleared)
 				{
 					wasCleared = false;
-					break;
-				}
-				if (swapper.Swap())
-				{
-					uint32 methodIdx_Report = INDEX_NONE;
-					uint32 methodIdx_Detect = INDEX_NONE;
-					Niflect::TArray<SMethodBinding> vecBinding;
-					auto type = Niflect::StaticGetType<CAntiCheat>();
-					vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
-					vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
-					swapper.Bind(vecBinding);
-					CDetectingContext detectingCtx;
-					if (methodIdx_Detect != INDEX_NONE)
-						swapper.InvokeBestPractice(methodIdx_Detect, detectingCtx);
-					else
-						printf("Method Detect not found\n");
-					CReportingContext reportingCtx;
-					if (methodIdx_Report != INDEX_NONE)
-						swapper.InvokeBestPractice(methodIdx_Report, reportingCtx);
-					else
-						printf("Method Report not found\n");
 				}
 				else
 				{
-					printf("Fail to load the plugin, please build the %s project then try again\n", pszPluginName);
+					if (swapper.Swap())
+					{
+						uint32 methodIdx_Report = INDEX_NONE;
+						uint32 methodIdx_Detect = INDEX_NONE;
+						Niflect::TArray<SMethodBinding> vecBinding;
+						auto type = Niflect::StaticGetType<CAntiCheat>();
+						vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Detect), &methodIdx_Detect });
+						vecBinding.push_back({ FindMethodSignatureHash(type, &CAntiCheat::Report), &methodIdx_Report });
+						swapper.Bind(vecBinding);
+						CDetectingContext detectingCtx;
+						if (methodIdx_Detect != INDEX_NONE)
+							swapper.InvokeBestPractice(methodIdx_Detect, detectingCtx);
+						else
+							printf("Method Detect not found\n");
+						CReportingContext reportingCtx;
+						if (methodIdx_Report != INDEX_NONE)
+							swapper.InvokeBestPractice(methodIdx_Report, reportingCtx);
+						else
+							printf("Method Report not found\n");
+					}
+					else
+					{
+						printf("Fail to load the plugin, please build the %s project then try again\n", pszPluginName);
+					}
 				}
 				initialOrDefault = false;
 			}
