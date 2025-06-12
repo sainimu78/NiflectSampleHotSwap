@@ -75,7 +75,7 @@
 
 *模拟的热修复工作流*
 
-- 删除 `m_map` 字段, 移除计数字段 `m_detectingCount` 的 `++` 操作
+- 删除 `m_map` 字段, 移除 `Detect` 中对 `m_detectingCount` 的 `++` 操作
 - App.exe 中热替换后可观察到 `m_detectingCount` 保持之前的状态
 
 ## 构建
