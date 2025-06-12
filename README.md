@@ -1,6 +1,8 @@
 ![Build Status Linux](https://github.com/sainimu78/NiflectSampleHotSwap/actions/workflows/Linux.yml/badge.svg)
 ![Build Status Windows](https://github.com/sainimu78/NiflectSampleHotSwap/actions/workflows/Windows.yml/badge.svg)
 
+[English](Doc/English/README.md)
+
 # Niflect 示例: 反射驱动的原生级实例热替换框架
 
 **NiflectSampleHotSwap** 是 C++ 基于反射元数据的实例热替换示例, 展示如何不重启应用实现运行时替换实例, 新旧实例状态迁移等. 原生级体现如下
@@ -75,6 +77,54 @@
 
 - 删除 `m_map` 字段, 移除计数字段 `m_detectingCount` 的 `++` 操作
 - App.exe 中热替换后可观察到 `m_detectingCount` 保持之前的状态
+
+## 构建
+
+```bat
+git clone git@github.com:sainimu78/NiflectSampleHotSwap.git
+cd NiflectSampleHotSwap
+git submodule update --init --remote
+```
+
+### Windows
+
+VS 2015+, 建议 VS 2022
+
+Plugin
+
+```bat
+cd Build\Plugin\Windows
+Generate.bat
+Build.bat
+```
+
+App
+
+```bat
+cd Build\App\Windows
+Generate.bat
+Build.bat
+DefaultBuild\Debug\bin\App.exe
+```
+
+### Linux
+
+Plugin
+
+```
+cd Build/Plugin/Linux
+./Generate.sh
+./Build.sh
+```
+
+App
+
+```
+cd Build/App/Linux
+./Generate.sh
+./Build.sh
+./DefaultBuild/Debug/bin/App
+```
 
 ## FAQ
 
