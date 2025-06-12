@@ -38,7 +38,8 @@ R"(%u. (For VS users) Must launch without debugger(Ctrl+F5) - Debug mode(F5) loc
 	printf(
 R"(%u. Press [Enter] to hot-swap.
 %u. Press [%c] then [Enter] to quit.
-)", tipsCount + 1, tipsCount + 2, KEY_EXIT);
+%u. Press [%c] then [Enter] to clear screen.
+)", tipsCount + 1, tipsCount + 2, KEY_EXIT, tipsCount + 3, KEY_CLEAR);
 	printf("------------------------------------------\n");
 }
 static void ClearConsole()
@@ -52,7 +53,7 @@ static void ClearConsole()
 
 int main()
 {
-	//PrintTips();
+	PrintTips();
 
 	Niflect::CNiflectModuleRegistry2 reg;
 	reg.InitLoadTimeModules();
