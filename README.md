@@ -88,8 +88,6 @@ git submodule update --init --remote
 
 ### Windows
 
-VS 2015+, 建议 VS 2022
-
 Plugin
 
 ```bat
