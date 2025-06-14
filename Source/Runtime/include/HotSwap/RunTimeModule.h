@@ -40,11 +40,11 @@ private:
 class CRunTimeModule
 {
 public:
-	Niflect::CNiflectModuleRegistry2* Load(const Niflect::CString& dirPath, const Niflect::CString& libName)
+	Niflect::CNiflectModuleRegistry* Load(const Niflect::CString& dirPath, const Niflect::CString& libName)
 	{
 		if (m_lib.Load(dirPath, libName))
 		{
-			m_reg = Niflect::MakeShared<Niflect::CNiflectModuleRegistry2>();
+			m_reg = Niflect::MakeShared<Niflect::CNiflectModuleRegistry>();
 			if (m_reg->InitLoadTimeModules())
 				return m_reg.Get();
 		}
@@ -58,5 +58,5 @@ public:
 
 private:
 	CRunTimeLinkingLibrary m_lib;
-	Niflect::CSharedModuleRegistry2 m_reg;
+	Niflect::CSharedModuleRegistry m_reg;
 };

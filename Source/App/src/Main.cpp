@@ -55,7 +55,7 @@ int main()
 {
 	PrintTips();
 
-	Niflect::CNiflectModuleRegistry2 reg;
+	Niflect::CNiflectModuleRegistry reg;
 	reg.InitLoadTimeModules();
 
 	{
