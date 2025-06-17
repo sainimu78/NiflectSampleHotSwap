@@ -102,7 +102,8 @@ App
 cd Build\App\Windows
 Generate.bat
 Build.bat
-DefaultBuild\Debug\bin\App.exe
+cd DefaultBuild\Debug\bin
+App.exe
 ```
 
 ### Linux
@@ -121,7 +122,8 @@ App
 cd Build/App/Linux
 ./Generate.sh
 ./Build.sh
-./DefaultBuild/Debug/bin/App
+cd DefaultBuild/Debug/bin
+./App
 ```
 
 ## FAQ
