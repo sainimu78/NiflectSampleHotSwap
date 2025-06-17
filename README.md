@@ -7,7 +7,7 @@
 
 **NiflectSampleHotSwap** 是 C++ 基于反射元数据的实例热替换示例, 展示如何不重启应用实现运行时替换实例, 新旧实例状态迁移等. 原生级体现如下
 
-- 函数执行性能达原生级
+- 函数调用性能达原生级
 - 开发风格保持原生性
 
 热替换所需的反射元数据通过 Niflect 生成
@@ -19,10 +19,10 @@
 - 不要求可被替换的类继承自某个类, 见 `class CAntiCheat`
 - 新旧实例状态迁移, 见 `SaveAndDestroy` 与 `CreateAndMigrate`
 - 与布局, 虚表无关, 可任意增删字段与函数
-- 函数执行达原生级性能, 见 `InvokeBestPractice`
+- 函数调用达原生级性能, 见 `InvokeBestPractice`
 - 函数参数类型擦除且参数可扩展的类型安全函数调用机制 (Single-Argument Erasure for Type-Safe Invocation), 见 `InvokeBestPractice`
 - 基于函数签名的动态地址绑定机制, 优雅实现接口延迟绑定, 见 `FindMethodSignatureHash`
-- 确保仅执行符合接口约定的函数, 修改函数签名不崩溃, 见 `CAntiCheat::Detect(CDetectingContext& ctx)`
+- 确保仅调用符合接口约定的函数, 修改函数签名不崩溃, 见 `CAntiCheat::Detect(CDetectingContext& ctx)`
 - 自动发现可热替换类型, 见 `CRunTimeModule::Load`
 
 ## 演示
@@ -37,7 +37,7 @@
 - 使用 Niflect 的宏标签和本示例自定义的热替换 Nata 定义 `CAntiCheat` 示例类与成员
 - 修改 AntiCheat.h 插件代码后构建生成 AntiCheat.dll
 - 在 App.exe 窗口中按回车, 热替换所修改的 `CAntiCheat` 类实例
-- 热替换后分别执行实例的 `Detect` 与 `Report`
+- 热替换后分别调用实例的 `Detect` 与 `Report`
 
 ### 2. 新旧实例状态迁移
 
@@ -48,7 +48,7 @@
 - App.exe 中热替换前后
   - 旧实例保存状态后删除
   - 创建新实例后从保存状态中载入
-- 在新实例执行 `Detect` 时累加计数字段 `m_detectingCount`
+- 在新实例调用 `Detect` 时累加计数字段 `m_detectingCount`
 
 ### 3. 插入字段
 
@@ -136,7 +136,7 @@ cd DefaultBuild/Debug/bin
 
 ### Q2: 与用脚本实现的动态性有何区别?
 
-#### A2: 显著区别即在于, 一旦热替换完成后, 本方法几乎等同于原生代码的执行性能. 潜在的巨大区别说明如下
+#### A2: 显著区别即在于, 一旦热替换完成后, 本方法几乎等同于原生代码的调用性能. 潜在的巨大区别说明如下
 
 为核心 C++ 类型实现的反射基础设施可直接复用, 常见的基础设施如序列化与编辑器等, 并且不需要再为接入脚本而另定架构
 
