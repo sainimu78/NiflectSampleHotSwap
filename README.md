@@ -20,8 +20,9 @@
 - 新旧实例状态迁移, 见 `SaveAndDestroy` 与 `CreateAndMigrate`
 - 与布局, 虚表无关, 可任意增删字段与函数
 - 函数执行达原生级性能, 见 `InvokeBestPractice`
+- 函数参数类型擦除且参数可扩展的类型安全函数调用机制 (Single-Argument Erasure for Type-Safe Invocation), 见 `InvokeBestPractice`
 - 基于函数签名的动态地址绑定机制, 优雅实现接口延迟绑定, 见 `FindMethodSignatureHash`
-- 确保仅执行符合接口约定的函数, 修改函数签名不崩溃, 函数参数可扩展的函数传参最佳实践 (Single-Argument Erasure for Type-Safe Invocation), 见 `InvokeBestPractice` 与 `CAntiCheat::Detect(CDetectingContext& ctx)`
+- 确保仅执行符合接口约定的函数, 修改函数签名不崩溃, 见 `CAntiCheat::Detect(CDetectingContext& ctx)`
 - 自动发现可热替换类型, 见 `CRunTimeModule::Load`
 
 ## 演示
