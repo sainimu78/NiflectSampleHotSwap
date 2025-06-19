@@ -1,5 +1,5 @@
 #pragma once
-#include "Niflect/Default/DefaultMacroTag.h"
+#include "Niflect/Component/DefaultMacroTag.h"
 
 class CInvocationContext
 {

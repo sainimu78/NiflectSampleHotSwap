@@ -1,10 +1,10 @@
 #pragma once
 #include "RunTimeModule.h"
-#include "Niflect/Serialization/RwTree.h"
+#include "Niflect/Component/RwTree/RwTree.h"
 #include "HotSwap/Nata.h"
 #include "HotSwap/TypeSafeInvocationBestPractice.h"
-#include "Niflect/Default/SharedInstance.h"
-#include "Niflect/Default/Accessor.h"
+#include "Niflect/Component/SharedInstance.h"
+#include "Niflect/Component/RwTree/RwAccessor.h"
 
 using namespace RwTree;
 
