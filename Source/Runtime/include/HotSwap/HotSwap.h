@@ -3,6 +3,8 @@
 #include "Niflect/Serialization/RwTree.h"
 #include "HotSwap/Nata.h"
 #include "HotSwap/TypeSafeInvocationBestPractice.h"
+#include "Niflect/Default/SharedInstance.h"
+#include "Niflect/Default/Accessor.h"
 
 using namespace RwTree;
 
@@ -113,8 +115,8 @@ private:
 		{
 			m_swappableType = foundType;
 			ASSERT(m_swappableType->m_vecConstructorInfo.size() > 0);//可能未正确定义继承类, 如未 override 所有纯虚函数
-			m_swappableInstance = Niflect::NiflectTypeMakeShared<DummyType>(m_swappableType);
-			return m_swappableType->LoadInstanceFromRwNode(m_swappableInstance.Get(), rwOld);
+			m_swappableInstance = Niflect::MakeSharedInstance<DummyType>(m_swappableType);
+			return Niflect::LoadInstanceFromRwNode(m_swappableType, m_swappableInstance.Get(), rwOld);
 		}
 		return false;
 	}
@@ -123,7 +125,7 @@ private:
 		bool saved = false;
 		if (m_swappableInstance != NULL)
 		{
-			m_swappableType->SaveInstanceToRwNode(m_swappableInstance.Get(), rw);
+			Niflect::SaveInstanceToRwNode(m_swappableType, m_swappableInstance.Get(), rw);
 			saved = true;
 		}
 		this->DestroyInstance();
