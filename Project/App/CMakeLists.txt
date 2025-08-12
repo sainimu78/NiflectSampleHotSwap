@@ -53,12 +53,12 @@ include(${c_ProjectDirPath}/Install.cmake)
 
 if(MSVC)
     set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${ModuleName})
-endif()
-
-if(MSVC)
 	set_target_properties(${ModuleName} PROPERTIES
 		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG},${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}>"
 	)
+else()
+	#target_link_libraries(${ModuleName} PRIVATE pthread)
+	target_link_libraries(${ModuleName} PRIVATE dl) #dlopen, dlclose, dlerror, dlsym
 endif()
 
 include(${c_RootCMakeProjectFrameworkDirPath}/Release.cmake)
