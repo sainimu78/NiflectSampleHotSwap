@@ -58,7 +58,7 @@ if(MSVC)
 	)
 else()
 	#target_link_libraries(${ModuleName} PRIVATE pthread)
-	target_link_libraries(${ModuleName} PRIVATE dl) #dlopen, dlclose, dlerror, dlsym
+	target_link_libraries(${ModuleName} PRIVATE dl) #dlopen, dlclose, dlerror, dlsym, 使用高版本如 Ubuntu 24 中的标准库可不链接 dl
 endif()
 
 include(${c_RootCMakeProjectFrameworkDirPath}/Release.cmake)
