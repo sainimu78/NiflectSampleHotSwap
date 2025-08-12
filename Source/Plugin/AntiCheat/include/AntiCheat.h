@@ -1,6 +1,7 @@
 #pragma once
 #include "HotSwap/Nata.h"
 #include "HotSwap/TypeSafeInvocationBestPractice.h"
+#include <map>
 #include "AntiCheat_gen.h"
 
 NIF_T()

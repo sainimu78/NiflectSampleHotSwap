@@ -3,7 +3,7 @@
 #include "Niflect/Component/RwTree/RwTree.h"
 #include "HotSwap/Nata.h"
 #include "HotSwap/TypeSafeInvocationBestPractice.h"
-#include "Niflect/Component/SharedInstance.h"
+#include "Niflect/Component/NTL/Default/SharedInstance.h"
 #include "Niflect/Component/RwTree/RwAccessor.h"
 
 using namespace RwTree;

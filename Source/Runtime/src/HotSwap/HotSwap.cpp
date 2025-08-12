@@ -1,6 +1,6 @@
 #include "HotSwap/HotSwap.h"
-#include "Niflect/Util/SystemUtil.h"
-#include "Niflect/Util/StringUtil.h"
+#include "Niflect/Component/Util/SystemUtil.h"
+#include "Niflect/Component/Util/StringUtil.h"
 
 CHotSwap::~CHotSwap()
 {
