@@ -57,7 +57,7 @@ if(MSVC)
 		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG},${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}>"
 	)
 else()
-	#target_link_libraries(${ModuleName} PRIVATE pthread)
+	#target_link_libraries(${ModuleName} PRIVATE pthread)#pthread_create, 使用高版本如 Ubuntu 24 中的标准库可不链接 pthread
 	target_link_libraries(${ModuleName} PRIVATE dl) #dlopen, dlclose, dlerror, dlsym, 使用高版本如 Ubuntu 24 中的标准库可不链接 dl
 endif()
 
