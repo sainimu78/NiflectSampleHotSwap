@@ -47,7 +47,7 @@ static void ClearConsole()
 #ifdef _WIN32
 	system("cls");
 #else
-	system("clear");
+	auto _ret = system("clear"); (void)_ret;
 #endif
 }
 
