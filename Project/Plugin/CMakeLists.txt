@@ -8,6 +8,8 @@ include(${c_RootCMakeProjectFrameworkDirPath}/ProjectBegin.cmake)
 project(${c_ProjectName})
 include(${c_RootCMakeProjectFrameworkDirPath}/ProjectEnd.cmake)
 
+include(${c_RootCMakeProjectFrameworkDirPath}/InitCMakeTargetOutputDirPaths.cmake)
+
 set(c_ProjectRequiredBinInstalling FALSE)
 
 cpf_include(${c_RootProjectDirPath}/Runtime/Shared.cmake)
@@ -53,7 +55,7 @@ cpf_include_install(${c_RootProjectDirPath}/Plugin/AntiCheat/Shared.cmake)
 
 # if(MSVC)
 # 	set_target_properties(${StartupProjectName} PROPERTIES
-# 		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG},${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}>"
+# 		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${c_ProjectBinDirPathDebug},${c_ProjectBinDirPathRelease}>"
 # 	)
 # endif()
 

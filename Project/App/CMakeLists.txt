@@ -8,6 +8,8 @@ include(${c_RootCMakeProjectFrameworkDirPath}/ProjectBegin.cmake)
 project(${c_ProjectName})
 include(${c_RootCMakeProjectFrameworkDirPath}/ProjectEnd.cmake)
 
+include(${c_RootCMakeProjectFrameworkDirPath}/InitCMakeTargetOutputDirPaths.cmake)
+
 cpf_include_install(${c_RootProjectDirPath}/Runtime/Shared.cmake)
 
 set(ModuleName ${c_ProjectName})
@@ -54,7 +56,7 @@ include(${c_ProjectDirPath}/Install.cmake)
 if(MSVC)
     set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT ${ModuleName})
 	set_target_properties(${ModuleName} PROPERTIES
-		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG},${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}>"
+		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${c_ProjectBinDirPathDebug},${c_ProjectBinDirPathRelease}>"
 	)
 else()
 	#target_link_libraries(${ModuleName} PRIVATE pthread)#pthread_create, 使用高版本如 Ubuntu 24 中的标准库可不链接 pthread

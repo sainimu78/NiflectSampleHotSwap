@@ -49,7 +49,7 @@ endif()
 
 if(MSVC)
 	set_target_properties(${ModuleName} PROPERTIES
-		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG},${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}>"
+		VS_DEBUGGER_WORKING_DIRECTORY "$<IF:$<CONFIG:Debug>,${c_ProjectBinDirPathDebug},${c_ProjectBinDirPathRelease}>"
 	)
 endif()
 
