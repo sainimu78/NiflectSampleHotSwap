@@ -36,7 +36,7 @@
 #define CPF_PLATFORM_OS_NAME "Linux"
 #define CPF_FINAL_OUTPUT_DIR_NAME "lib"
 #endif
-#ifdef NODEBUG
+#ifdef NDEBUG
 #define CPF_CONFIG_NAME "Release"
 #else
 #define CPF_CONFIG_NAME "Debug"
