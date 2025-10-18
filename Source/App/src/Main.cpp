@@ -6,7 +6,7 @@
 #include "AntiCheat.h"
 #include "App_private.h"
 
-#define KEY_EXIT 'q'
+#define KEY_QUIT 'q'
 #define KEY_CLEAR 'c'
 
 template <typename TMethodAddr>
@@ -39,7 +39,7 @@ R"(%u. (For VS users) Must launch without debugger(Ctrl+F5) - Debug mode(F5) loc
 R"(%u. Press [Enter] to hot-swap.
 %u. Press [%c] then [Enter] to quit.
 %u. Press [%c] then [Enter] to clear screen.
-)", tipsCount + 1, tipsCount + 2, KEY_EXIT, tipsCount + 3, KEY_CLEAR);
+)", tipsCount + 1, tipsCount + 2, KEY_QUIT, tipsCount + 3, KEY_CLEAR);
 	printf("------------------------------------------\n");
 }
 static void ClearConsole()
@@ -72,7 +72,7 @@ int main()
 				key = std::cin.get();
 			switch (key)
 			{
-			case KEY_EXIT:
+			case KEY_QUIT:
 				quit = true;
 				break;
 			case KEY_CLEAR:
