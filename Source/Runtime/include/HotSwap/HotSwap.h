@@ -95,12 +95,15 @@ private:
 				for (uint32 idx1 = 0; idx1 < table->GetTypesCount(); ++idx1)
 				{
 					auto type = table->GetTypeByIndex(idx1);
-					auto nata = Niflect::CastDerivedNata<CTypeNata>(type->GetNata());
-					if (nata->m_isSwappable)
+					if (auto base = type->GetNata())
 					{
-						ASSERT(type->m_vecMethodInfo.size() > 0);
-						foundType = type;
-						break;
+						auto nata = Niflect::CastDerivedNata<CTypeNata>(base);
+						if (nata->m_isSwappable)
+						{
+							ASSERT(type->m_vecMethodInfo.size() > 0);
+							foundType = type;
+							break;
+						}
 					}
 				}
 				if (foundType != NULL)
