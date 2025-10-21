@@ -165,6 +165,6 @@ cd DefaultBuild/Debug/bin
 
 ### Q6: 有更具体的应用示例吗?
 
-#### A6: TensorFlow 模型零停机热替换与字段级状态保持
+#### A6: TensorFlow 模型在线替换与字段级状态保持
 
 详见[代码仓库](https://github.com/sainimu78/NiflectSampleHotSwappableTensorflowMultiboxDetector)
