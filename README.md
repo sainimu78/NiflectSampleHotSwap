@@ -162,3 +162,9 @@ cd DefaultBuild/Debug/bin
 
 - 将 Niflect 设法集成到 JIT 编译环境中, 例如集成到 clang-repl 的编译环境
 - 反射元数据通过 JIT 替换, 即可实现本热替换方法
+
+### Q6: 有更具体的应用示例吗?
+
+#### A6: TensorFlow 模型零停机热替换与字段级状态保持
+
+详见[代码仓库](https://github.com/sainimu78/NiflectSampleHotSwappableTensorflowMultiboxDetector)
